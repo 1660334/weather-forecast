@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "./Search.module.css";
 import { FaChevronCircleDown as DownArrow } from "react-icons/fa";
 // import background from "../assets/main_background.jpg";
-import { FaGithub as GithubIcon } from "react-icons/fa";
 import { PropTypes } from "prop-types";
 
 function Search({ data, handleFetchData }) {
@@ -22,28 +21,6 @@ function Search({ data, handleFetchData }) {
   };
   return (
     <div className={styles.wrapper}>
-      <div className={styles.mob_styles}>
-        <div className={styles.mob_header}>
-          <a href="/">
-            <h1>Weatherify</h1>
-          </a>
-          <a href="https://github.com/zxcodes/weatherify-web">
-            <GithubIcon className={styles.github} />
-          </a>
-        </div>
-        <div className={styles.mob_result}>
-          {Object.keys(data).length > 0 ? (
-            <>
-              <h1 className={styles.temp}>{data.main.temp}°C</h1>
-              <h1 className={styles.city_name}>{data.name}</h1>
-            </>
-          ) : (
-            <p className={styles.no_data}>
-              No data! Enter a city and hit enter.
-            </p>
-          )}
-        </div>
-      </div>
       <input
         type="text"
         placeholder="Enter a city name..."
@@ -57,17 +34,19 @@ function Search({ data, handleFetchData }) {
         <h3>Available Cities</h3>
         <DownArrow className={styles.down_arrow} />
       </div>
-      {availableCities.map((city, index) => (
-        <p
-          key={index}
-          onClick={() => {
-            setCity(city);
-            handleFetchData(city);
-          }}
-        >
-          {city}
-        </p>
-      ))}
+      <div className={styles.cities_holder_item}>
+        {availableCities.map((city, index) => (
+          <p
+            key={index}
+            onClick={() => {
+              setCity(city);
+              handleFetchData(city);
+            }}
+          >
+            {city}
+          </p>
+        ))}
+      </div>
       <div className={styles.weather_detail}>
         {Object.keys(data).length > 0 ? (
           <>
@@ -86,8 +65,6 @@ function Search({ data, handleFetchData }) {
 
 Search.propTypes = {
   data: PropTypes.object,
-  city: PropTypes.string,
-  setCity: PropTypes.func,
   handleFetchData: PropTypes.func,
 };
 export default Search;
